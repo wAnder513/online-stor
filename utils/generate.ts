@@ -1,25 +1,18 @@
-import { faker } from '@faker-js/faker';
-
-interface Product {
-    image: string;
-    newPrice: number;
-    oldPrice?: number;
-    brand: string;
-    name: string;
-    url: string;
-}
+import { faker } from "@faker-js/faker";
+import type { Product } from "~/types/products";
 
 export const generateFakeProduct = (): Product => {
-    const hasOldPrice = faker.datatype.boolean();
-    const newPrice = faker.commerce.price({min: 100, max: 100000});
-    const oldPrice = hasOldPrice ? newPrice + faker.commerce.price({min: 10, max: 10000}) : undefined;
+  const hasOldPrice = Math.random() < 0.5;
+  const newPrice = faker.commerce.price({ min: 100, max: 100000 });
+  const oldPrice = hasOldPrice ? Number(newPrice) * 1.35 : undefined;
 
-    return {
-        image: faker.image.url(),
-        newPrice: Number(newPrice),
-        oldPrice: oldPrice ? Number(oldPrice) : undefined,
-        brand: faker.company.name(),
-        name: faker.commerce.productName(),
-        url: path.products + '/' + faker.number.int({min: 10, max:10000}),
-    };
+  return {
+    image: faker.image.url(),
+    newPrice: Number(newPrice),
+    oldPrice: oldPrice ? Number(oldPrice) : undefined,
+    brand: faker.company.name(),
+    name: faker.commerce.productName(),
+    url: path.products + "/" + faker.number.int({ min: 10, max: 10000 }),
+    description: "Цветные наклейки на клавиши пианино, для более лучшей игры",
+  };
 };

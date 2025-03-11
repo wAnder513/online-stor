@@ -1,0 +1,54 @@
+// Variables
+$primary-color: #3b82f6;
+$danger-color: #ef4444;
+$text-color: #1f2937;
+$gray-color: #6b7280;
+$white: #ffffff;
+$purple-color: #E0119D;
+
+// Reset & Base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  font-family: 'Roboto', sans-serif;
+  color: $text-color;
+  line-height: 1.5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  cursor: pointer;
+}
+
+.container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 26px 0;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+} 
