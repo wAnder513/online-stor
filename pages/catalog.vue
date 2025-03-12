@@ -4,7 +4,7 @@
       <h1 class="catalog_title">Тестовая задача</h1>
 
       <ClientOnly>
-        <div class="catalog_grid">
+        <div v-if="products && products.length > 0" class="catalog_grid">
           <ProductCard
             v-for="product in products"
             :key="product.id"
@@ -19,19 +19,19 @@
 </template>
 
 <script setup lang="ts">
-import { h, computed } from "vue";
+import { h } from "vue";
 import { NuxtLink } from "#components";
-import { generateFakeProduct } from "~/utils/generate";
 import { useCartStore } from "~/store/cart";
 import type { ProductCard } from "~/types/products";
 import { useNotification } from "~/composible/notification";
+import { apiPath } from "~/utils/api";
+
+const { data } = await useFetch(apiPath.products);
+
+const products = computed(() => (Array.isArray(data.value) ? data.value : []));
 
 const cartStore = useCartStore();
 const { addNotification } = useNotification();
-
-const products = computed(() =>
-  Array.from({ length: 12 }, () => generateFakeProduct())
-);
 
 const AddToCart = (product: ProductCard) => {
   cartStore.addProduct(product);
