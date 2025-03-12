@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { h } from "vue";
+import { h, computed } from "vue";
 import { NuxtLink } from "#components";
 import { generateFakeProduct } from "~/utils/generate";
 import { useCartStore } from "~/store/cart";
@@ -29,7 +29,9 @@ import { useNotification } from "~/composible/notification";
 const cartStore = useCartStore();
 const { addNotification } = useNotification();
 
-const products = ref(Array.from({ length: 12 }, () => generateFakeProduct()));
+const products = computed(() =>
+  Array.from({ length: 12 }, () => generateFakeProduct())
+);
 
 const AddToCart = (product: ProductCard) => {
   cartStore.addProduct(product);
