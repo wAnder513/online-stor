@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { ProductCard } from "~/types/products";
-import { readonly, ref } from "vue";
+import { ref } from "vue";
 
 export const useCartStore = defineStore("cart", () => {
   const products = ref<ProductCard[]>([]);
@@ -18,7 +18,7 @@ export const useCartStore = defineStore("cart", () => {
   };
 
   return {
-    products: readonly(products),
+    products,
     addProduct,
     removeProduct,
     hasInCart,

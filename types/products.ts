@@ -8,6 +8,13 @@ export interface Product {
   description: string;
 }
 
-export interface ProductCard extends Product {
+export interface ProductCard {
   id: number;
+  image: string;
+  newPrice: number;
+  oldPrice?: number;
+  brand: string;
+  name: string;
+  url: string;
+  description: string;
 }

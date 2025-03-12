@@ -3,15 +3,17 @@
     <div class="catalog_main">
       <h1 class="catalog_title">Тестовая задача</h1>
 
-      <div class="catalog_grid">
-        <ProductCard
-          v-for="product in products"
-          :key="product.id"
-          :product="product"
-          @addToCart="AddToCart"
-          @removeFromCart="RemoveFromCart"
-        />
-      </div>
+      <ClientOnly>
+        <div class="catalog_grid">
+          <ProductCard
+            v-for="product in products"
+            :key="product.id"
+            :product="product"
+            @addToCart="AddToCart"
+            @removeFromCart="RemoveFromCart"
+          />
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>

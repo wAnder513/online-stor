@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNotification } from "~/composible/notification";
+import { useNotification } from "../../composible/notification";
 
 const { notifications } = useNotification();
 </script>

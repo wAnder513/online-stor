@@ -15,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import { useCartStore } from "~/store/cart";
-import { getCartItemsCountString } from "~/helpers";
+import { useCartStore } from "../../store/cart";
+import { getCartItemsCountString } from "../../helpers";
 import { computed } from "vue";
-import cartIcon from "../assets/image/cart-icon.svg";
+import cartIcon from "../../assets/image/cart-icon.svg";
 
 const cartStore = useCartStore();
 
