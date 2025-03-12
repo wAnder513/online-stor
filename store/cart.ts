@@ -13,9 +13,14 @@ export const useCartStore = defineStore("cart", () => {
     products.value = products.value.filter((p) => p.id !== product.id);
   };
 
+  const hasInCart = (product: ProductCard) => {
+    return products.value.some((p) => p.id === product.id);
+  };
+
   return {
     products: readonly(products),
     addProduct,
     removeProduct,
+    hasInCart,
   };
 });

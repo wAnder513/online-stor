@@ -25,15 +25,33 @@
       <p class="product_description">{{ product.description }}</p>
     </div>
 
-    <slot name="footer"> </slot>
+    <button
+      class="product_button"
+      @click="() => removeFromCart(product)"
+      v-if="hasInCart"
+    >
+      Удалить
+    </button>
+
+    <button class="product_button" @click="() => addToCart(product)" v-else>
+      В корзину
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { ProductCard } from "~/types/products";
+import { useCartStore } from "~/store/cart";
+
+const cartStore = useCartStore();
 
 const props = defineProps<{
   product: ProductCard;
+}>();
+
+const emit = defineEmits<{
+  (e: "addToCart", product: ProductCard): void;
+  (e: "removeFromCart", product: ProductCard): void;
 }>();
 
 const differencePricePercent = computed(() => {
@@ -45,6 +63,18 @@ const differencePricePercent = computed(() => {
   )}%`;
 });
 
+const hasInCart = computed(() => {
+  return cartStore.hasInCart(props.product);
+});
+
+const addToCart = (product: ProductCard) => {
+  emit("addToCart", product);
+};
+
+const removeFromCart = (product: ProductCard) => {
+  emit("removeFromCart", product);
+};
+
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat("ru-RU", {
     style: "currency",
@@ -55,8 +85,29 @@ const formatPrice = (price: number) => {
 
 <style lang="scss" scoped>
 @use "~/assets/scss/main.scss" as *;
+
 .product {
   max-width: 200px;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+
+    .product_button {
+      opacity: 1;
+    }
+  }
+}
+
+.product_button {
+  width: max-content;
+  background-color: $text-color;
+  color: $white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border: none;
 }
 
 .product_image_wrapper {
@@ -77,7 +128,7 @@ const formatPrice = (price: number) => {
   bottom: 8px;
   left: 8px;
   background-color: $white;
-  color: $purple-color;
+  color: $pink-color;
   padding: 3px 6px;
   border-radius: 4px;
 }

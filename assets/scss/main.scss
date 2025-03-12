@@ -4,7 +4,7 @@ $danger-color: #ef4444;
 $text-color: #1f2937;
 $gray-color: #6b7280;
 $white: #ffffff;
-$purple-color: #E0119D;
+$pink-color: #E0119D;
 
 // Reset & Base styles
 * {
@@ -26,28 +26,7 @@ button {
   cursor: pointer;
 }
 
-.product {
-  transition: transform 0.3s;
 
-  &:hover {
-    transform: scale(1.05);
-
-    .product_button {
-      opacity: 1;
-    }
-  }
-}
-
-.product_button {
-  width: max-content;
-  background-color: $text-color;
-  color: $white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  opacity: 0;
-  transition: opacity 0.3s;
-  border: none;
-}
 
 
 .container {

@@ -1,8 +1,8 @@
 <template>
   <div class="index">
-    <main class="index_main">
+    <div class="index_main">
       <NuxtLink to="/catalog" class="index_link"> Перейти в каталог </NuxtLink>
-    </main>
+    </div>
   </div>
 </template>
 
@@ -25,7 +25,7 @@
 
 .index_link {
   font-size: 32px;
-  color: $purple-color;
+  color: $pink-color;
   transition: color 0.3s;
 }
 </style>

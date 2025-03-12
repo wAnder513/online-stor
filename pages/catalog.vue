@@ -1,6 +1,6 @@
 <template>
   <div class="catalog">
-    <main class="catalog_main">
+    <div class="catalog_main">
       <h1 class="catalog_title">Тестовая задача</h1>
 
       <div class="catalog_grid">
@@ -8,44 +8,40 @@
           v-for="product in products"
           :key="product.id"
           :product="product"
-        >
-          <template #footer>
-            <button class="product_button" @click="() => AddToCart(product)">
-              В корзину
-            </button>
-          </template>
-        </ProductCard>
+          @addToCart="AddToCart"
+          @removeFromCart="RemoveFromCart"
+        />
       </div>
-    </main>
-
-    <div
-      v-if="showNotification"
-      class="catalog_notification shadow-md"
-      :class="{ catalog_notification_hidden: !showNotification }"
-    >
-      Товар добавлен в
-      <NuxtLink to="/cart" class="catalog_notification_link">корзину</NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { h } from "vue";
+import { NuxtLink } from "#components";
 import { generateFakeProduct } from "~/utils/generate";
 import { useCartStore } from "~/store/cart";
 import type { ProductCard } from "~/types/products";
+import { useNotification } from "~/composible/notification";
+
 const cartStore = useCartStore();
+const { addNotification } = useNotification();
 
 const products = ref(Array.from({ length: 12 }, () => generateFakeProduct()));
 
-const showNotification = ref(false);
-
 const AddToCart = (product: ProductCard) => {
   cartStore.addProduct(product);
+  addNotification(() =>
+    h("div", {}, [
+      "Товар добавлен в ",
+      h(NuxtLink, { to: "/cart" }, () => "корзину"),
+    ])
+  );
+};
 
-  showNotification.value = true;
-  setTimeout(() => {
-    showNotification.value = false;
-  }, 3000);
+const RemoveFromCart = (product: ProductCard) => {
+  cartStore.removeProduct(product);
+  addNotification("Товар удален из корзины");
 };
 </script>
 
@@ -75,23 +71,7 @@ const AddToCart = (product: ProductCard) => {
   margin-bottom: 110px;
 }
 
-.catalog_notification {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  background-color: $primary-color;
-  color: $white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: opacity 0.3s;
-
-  .catalog_notification_hidden {
-    opacity: 0;
-  }
-}
-
-.catalog_notification_link {
-  text-decoration: underline;
+.catalog_notification-link {
   color: $white;
 }
 </style>

@@ -1,46 +1,40 @@
 <template>
   <div class="cart">
-    <main class="cart_main">
-      <div class="cart_content">
-        <div class="cart_headers">
-          <h1 class="cart_header">Header 1</h1>
-          <h2 class="cart_header">Header 2</h2>
-          <h3 class="cart_header">Header 3</h3>
-        </div>
-
-        <div class="cart_products">
-          <div v-if="cartStore.products.length > 0" class="cart_list">
-            <ProductCard
-              v-for="product in cartStore.products"
-              :key="product.id"
-              :product="product"
-            >
-              <template #footer>
-                <button
-                  class="product_button"
-                  @click="() => removeFromCart(product)"
-                >
-                  Удалить из корзины
-                </button>
-              </template>
-            </ProductCard>
-          </div>
-
-          <div v-else class="cart_empty">Корзина пуста</div>
-        </div>
+    <div class="cart_content">
+      <div class="cart_headers">
+        <h1 class="cart_header">Header 1</h1>
+        <h2 class="cart_header">Header 2</h2>
+        <h3 class="cart_header">Header 3</h3>
       </div>
-    </main>
+
+      <div class="cart_products">
+        <div v-if="cartStore.products.length > 0" class="cart_list">
+          <ProductCard
+            v-for="product in cartStore.products"
+            :key="product.id"
+            :product="product"
+            @removeFromCart="RemoveFromCart"
+          >
+          </ProductCard>
+        </div>
+
+        <div v-else class="cart_empty">Корзина пуста</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { ProductCard } from "~/types/products";
 import { useCartStore } from "~/store/cart";
+import { useNotification } from "~/composible/notification";
 
 const cartStore = useCartStore();
+const { addNotification } = useNotification();
 
-const removeFromCart = (product: ProductCard) => {
+const RemoveFromCart = (product: ProductCard) => {
   cartStore.removeProduct(product);
+  addNotification("Товар удален из корзины");
 };
 </script>
 
@@ -48,14 +42,7 @@ const removeFromCart = (product: ProductCard) => {
 @use "~/assets/scss/main.scss" as *;
 
 .cart {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.cart_main {
   flex-grow: 1;
-  // max-width: 1200px;
   margin: 0 auto;
   margin: 42px 0;
 }
@@ -84,6 +71,7 @@ const removeFromCart = (product: ProductCard) => {
 }
 
 .cart_empty {
+  font-size: 24px;
   text-align: center;
   color: $gray-color;
 }

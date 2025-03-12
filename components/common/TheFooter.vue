@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container footer_content">
-      <div class="footer_brand">Brand Name</div>
+      <NuxtLink to="/" class="footer_brand">Brand Name</NuxtLink>
       <div class="footer_author">
         <span>Разработчик</span>
         <a
@@ -36,6 +36,7 @@
     font-size: 32px;
     font-weight: 700;
     color: $text-color;
+    text-decoration: none;
   }
 
   .footer_brand,
