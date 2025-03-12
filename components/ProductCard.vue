@@ -42,6 +42,7 @@
 <script setup lang="ts">
 import type { ProductCard } from "~/types/products";
 import { useCartStore } from "~/store/cart";
+import { formatPrice } from "~/helpers";
 
 const cartStore = useCartStore();
 
@@ -73,13 +74,6 @@ const addToCart = (product: ProductCard) => {
 
 const removeFromCart = (product: ProductCard) => {
   emit("removeFromCart", product);
-};
-
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("ru-RU", {
-    style: "currency",
-    currency: "RUB",
-  }).format(price);
 };
 </script>
 

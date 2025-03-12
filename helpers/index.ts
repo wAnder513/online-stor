@@ -1,4 +1,4 @@
-export function getCartItemsCountString(count: number) {
+export const getCartItemsCountString = (count: number) => {
   if (count === 0) return "0 товаров";
 
   const lastDigit = count % 10;
@@ -17,4 +17,11 @@ export function getCartItemsCountString(count: number) {
   }
 
   return `${count} товаров`;
-}
+};
+
+export const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("ru-RU", {
+    style: "currency",
+    currency: "RUB",
+  }).format(price);
+};
