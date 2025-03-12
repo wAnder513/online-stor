@@ -8,8 +8,13 @@
           v-for="product in products"
           :key="product.id"
           :product="product"
-          @add-to-cart="handleAddToCart"
-        />
+        >
+          <template #footer>
+            <button class="product_button" @click="() => AddToCart(product)">
+              В корзину
+            </button>
+          </template>
+        </ProductCard>
       </div>
     </main>
 
@@ -26,17 +31,17 @@
 
 <script setup lang="ts">
 import { generateFakeProduct } from "~/utils/generate";
+import { useCartStore } from "~/store/cart";
+import type { ProductCard } from "~/types/products";
+const cartStore = useCartStore();
 
-const products = ref(
-  Array.from({ length: 12 }, (_, index) => ({
-    id: index + 1,
-    ...generateFakeProduct(),
-  }))
-);
+const products = ref(Array.from({ length: 12 }, () => generateFakeProduct()));
 
 const showNotification = ref(false);
 
-const handleAddToCart = (product: any) => {
+const AddToCart = (product: ProductCard) => {
+  cartStore.addProduct(product);
+
   showNotification.value = true;
   setTimeout(() => {
     showNotification.value = false;

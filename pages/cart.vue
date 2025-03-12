@@ -9,13 +9,21 @@
         </div>
 
         <div class="cart_products">
-          <div v-if="cartItems.length > 0" class="cart_list">
+          <div v-if="cartStore.products.length > 0" class="cart_list">
             <ProductCard
-              v-for="item in cartItems"
-              :key="item.id"
-              :product="item"
-              @add-to-cart="removeFromCart"
-            />
+              v-for="product in cartStore.products"
+              :key="product.id"
+              :product="product"
+            >
+              <template #footer>
+                <button
+                  class="product_button"
+                  @click="() => removeFromCart(product)"
+                >
+                  Удалить из корзины
+                </button>
+              </template>
+            </ProductCard>
           </div>
 
           <div v-else class="cart_empty">Корзина пуста</div>
@@ -27,14 +35,12 @@
 
 <script setup lang="ts">
 import type { ProductCard } from "~/types/products";
+import { useCartStore } from "~/store/cart";
 
-const cartItems = ref<ProductCard[]>([]);
+const cartStore = useCartStore();
 
 const removeFromCart = (product: ProductCard) => {
-  const index = cartItems.value.findIndex((item) => item.id === product.id);
-  if (index !== -1) {
-    cartItems.value.splice(index, 1);
-  }
+  cartStore.removeProduct(product);
 };
 </script>
 
@@ -49,24 +55,24 @@ const removeFromCart = (product: ProductCard) => {
 
 .cart_main {
   flex-grow: 1;
-  max-width: 1200px;
+  // max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  margin: 42px 0;
 }
 
 .cart_content {
+  width: 100%;
   display: flex;
-  gap: 2rem;
+  gap: 32px;
 }
 
 .cart_headers {
-  width: 33.333333%;
+  width: calc(25% - 16px);
+  min-width: 160px;
 }
 
 .cart_header {
-  font-size: 2.25rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 
   &:last-child {
     margin-bottom: 0;
@@ -74,7 +80,7 @@ const removeFromCart = (product: ProductCard) => {
 }
 
 .cart_products {
-  width: 66.666667%;
+  width: calc(75% - 16px);
 }
 
 .cart_empty {
@@ -84,7 +90,7 @@ const removeFromCart = (product: ProductCard) => {
 
 .cart_list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 </style>

@@ -25,7 +25,7 @@
       <p class="product_description">{{ product.description }}</p>
     </div>
 
-    <button class="product_button" @click="addToCart">В корзину</button>
+    <slot name="footer"> </slot>
   </div>
 </template>
 
@@ -45,19 +45,11 @@ const differencePricePercent = computed(() => {
   )}%`;
 });
 
-const emit = defineEmits<{
-  (e: "addToCart", product: ProductCard): void;
-}>();
-
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat("ru-RU", {
     style: "currency",
     currency: "RUB",
   }).format(price);
-};
-
-const addToCart = () => {
-  emit("addToCart", props.product);
 };
 </script>
 
@@ -65,16 +57,6 @@ const addToCart = () => {
 @use "~/assets/scss/main.scss" as *;
 .product {
   max-width: 200px;
-  position: relative;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: scale(1.05);
-
-    .product_button {
-      opacity: 1;
-    }
-  }
 }
 
 .product_image_wrapper {
@@ -138,16 +120,5 @@ const addToCart = () => {
   overflow: hidden;
   margin-bottom: 12px;
   font-size: 14px;
-}
-
-.product_button {
-  width: max-content;
-  background-color: $text-color;
-  color: $white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  opacity: 0;
-  transition: opacity 0.3s;
-  border: none;
 }
 </style>

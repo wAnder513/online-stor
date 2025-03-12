@@ -1,12 +1,13 @@
 import { faker } from "@faker-js/faker";
-import type { Product } from "~/types/products";
+import type { ProductCard } from "~/types/products";
 
-export const generateFakeProduct = (): Product => {
+export const generateFakeProduct = (): ProductCard => {
   const hasOldPrice = Math.random() < 0.5;
   const newPrice = faker.commerce.price({ min: 100, max: 100000 });
   const oldPrice = hasOldPrice ? Number(newPrice) * 1.35 : undefined;
 
   return {
+    id: Date.now() + Math.random(),
     image: faker.image.url(),
     newPrice: Number(newPrice),
     oldPrice: oldPrice ? Number(oldPrice) : undefined,

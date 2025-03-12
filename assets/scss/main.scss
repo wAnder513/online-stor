@@ -26,6 +26,30 @@ button {
   cursor: pointer;
 }
 
+.product {
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+
+    .product_button {
+      opacity: 1;
+    }
+  }
+}
+
+.product_button {
+  width: max-content;
+  background-color: $text-color;
+  color: $white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border: none;
+}
+
+
 .container {
   max-width: 1360px;
   margin: 0 auto;

@@ -4,23 +4,27 @@
       <NuxtLink to="/" class="header_brand">Brand Name</NuxtLink>
       <NuxtLink to="/cart" class="header_cart">
         <div class="header_cart_icon">
-          <NuxtImg
-            class="header_cart-icon-img"
-            src="/cart-icon.svg"
-            alt="Корзина"
-          />
-          <span v-if="cartItemsCount > 0" class="header_cart_count">
-            {{ cartItemsCount }}
-          </span>
+          <NuxtImg class="header_cart-icon-img" :src="cartIcon" alt="Корзина" />
         </div>
-        Корзина
+        <span class="header_cart_count">
+          {{ cartItemsCount }}
+        </span>
       </NuxtLink>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-const cartItemsCount = ref(0); // Здесь будет использоваться store для реального подсчета
+import { useCartStore } from "~/store/cart";
+import { getCartItemsCountString } from "~/helpers";
+import { computed } from "vue";
+import cartIcon from "../assets/image/cart-icon.svg";
+
+const cartStore = useCartStore();
+
+const cartItemsCount = computed(() =>
+  getCartItemsCountString(cartStore.products.length)
+);
 </script>
 
 <style lang="scss" scoped>
@@ -63,21 +67,6 @@ const cartItemsCount = ref(0); // Здесь будет использовать
         width: 24px;
         height: 24px;
       }
-    }
-
-    .header_cart_count {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background-color: $danger-color;
-      color: $white;
-      border-radius: 9999px;
-      width: 16px;
-      height: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
     }
   }
 }
